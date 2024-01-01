@@ -1,0 +1,62 @@
+﻿@page "/books-list"
+@using Blazor.Shared.Models;
+@inject HttpClient Http
+
+<PageTitle>List of Books</PageTitle>
+
+<h1>List of Books</h1>
+
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Book ID</th>
+                <th>Book Reference No.</th>
+                <th>Book Name</th>
+                <th>Theme</th>
+                <th>Book Status</th>
+                <th>Active?</th>
+                <th>Date Created</th>
+                <th>Date Last Updated</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in booksLists)
+            {
+                <tr>
+                    <td>@book.BookId</td>
+                    <td>@book.BookReferenceNo</td>
+                    <td>@book.BookName</td>
+                    <td>@book.Theme</td>
+                    <td>@book.BookStatus</td>
+                    <td>@book.isActive</td>
+                    <td>@book.DateCreated</td>
+                    <td>@book.DateLastUpdate</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+@code {
+
+
+    protected List<Book> booksLists = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetBooksList();
+    }
+    protected async Task GetBooksList()
+    {
+        string apiUrl = "https://localhost:7239/api/books/get-books";
+        var response = await Http.GetAsync(apiUrl);
+        //response.EnsureSuccessStatusCode();
+        //string responseBodyJson = await response.Content.ReadAsStringAsync();
+
+        //booksLists = JsonConvert.DeserializeObject<List<Book>>(responseBodyJson);
+    }
+
+ 
+}
