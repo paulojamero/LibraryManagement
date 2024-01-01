@@ -5,6 +5,27 @@ using Microsoft.AspNetCore.Components.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
+#region CORS setting for API
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "_myAllowSpecificOrigins",
+                      policy =>
+                      {
+                          policy.AllowAnyOrigin()
+                                              .AllowAnyHeader()
+                                              .AllowAnyMethod();
+
+                          //policy.WithOrigins("https://noorecommerceshop.netlify.app" , "http://noornashad-001-site3.etempurl.com")
+                          //             .AllowAnyHeader()
+                          //             .AllowAnyMethod();
+                      });
+});
+#endregion
+
+
+
+
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
@@ -26,6 +47,12 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseCors("_myAllowSpecificOrigins");
+
+app.MapDefaultControllerRoute();
+app.MapBlazorHub();
+
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");

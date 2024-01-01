@@ -16,7 +16,7 @@ namespace Blazor.Shared.Services
         private readonly IConfiguration configuration;
         public UserServices(IConfiguration _configuration) 
         {
-            ConnectionString = _configuration.GetConnectionString("ConnectionString");
+            ConnectionString = _configuration.GetConnectionString("DbConnection");
         }
 
         public IEnumerable<Book> GetAllStudent()
