@@ -10,5 +10,6 @@ namespace Blazor.Shared.Services
     public interface IUserServices
     {
         public IEnumerable<Book> GetAllStudent();
+        public void AddNewBook(Book newBook);
     }
 }

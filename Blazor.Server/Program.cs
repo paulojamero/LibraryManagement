@@ -29,7 +29,8 @@ builder.Services.AddCors(options =>
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddControllers();
+///builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddSingleton<IUserServices, UserServices>();
 
 var app = builder.Build();
@@ -50,11 +51,19 @@ app.UseRouting();
 
 app.UseCors("_myAllowSpecificOrigins");
 
-app.MapDefaultControllerRoute();
-app.MapBlazorHub();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapBlazorHub();
+    endpoints.MapRazorPages();
+    endpoints.MapFallbackToPage("/_Host");
+});
+
+//app.MapDefaultControllerRoute();
+//app.MapBlazorHub();
 
 
-app.MapBlazorHub();
-app.MapFallbackToPage("/_Host");
+//app.MapBlazorHub();
+//app.MapFallbackToPage("/_Host");
 
 app.Run();

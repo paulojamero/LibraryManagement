@@ -48,5 +48,25 @@ namespace Blazor.Shared.Services
             }
             return bookList;
         }
+
+
+        public void AddNewBook(Book newBook)
+        {
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("pr_AddNewBook", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@BookReferenceNo", newBook.BookReferenceNo);
+                cmd.Parameters.AddWithValue("@BookName", newBook.BookName);
+                cmd.Parameters.AddWithValue("@Theme", newBook.Theme);
+                cmd.Parameters.AddWithValue("@BookStatus", newBook.BookStatus);
+                //cmd.Parameters.AddWithValue("",);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
     }
 }

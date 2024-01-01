@@ -1,0 +1,96 @@
+﻿@page "/add-book"
+@using Blazor.Shared.Models;
+@using Microsoft.AspNetCore.Authorization;
+@using Newtonsoft.Json;
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<PageTitle>Add New Book</PageTitle>
+
+<h1>Add Book</h1>
+
+<EditForm Model="@book" OnValidSubmit="SaveUser">
+    <DataAnnotationsValidator />
+    <div class="mb-3">
+        <label for="BookReferenceNo" class="form-label">Book Reference No</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="book.BookReferenceNo" />
+        </div>
+        <ValidationMessage For="@(() => book.BookReferenceNo)" />
+    </div>
+    <div class="mb-3">
+        <label for="BookName" class="form-label">Book Title</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="book.BookName" />
+        </div>
+        <ValidationMessage For="@(() => book.BookName)" />
+    </div>
+    <div class="mb-3">
+        <label for="Theme" class="form-label">Theme</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="book.Theme" />
+        </div>
+        <ValidationMessage For="@(() => book.Theme)" />
+    </div>
+    <div class="mb-3">
+        <label for="BookStatus" class="form-label">Book Status</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="book.BookStatus" />
+        </div>
+        <ValidationMessage For="@(() => book.BookStatus)" />
+    </div>
+    @*<div class="mb-3">
+        <label for="isActive" class="form-label">Is Active?</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="book.isActive" />
+        </div>
+        <ValidationMessage For="@(() => book.isActive)" />
+    </div>*@
+   @* <div class="mb-3">
+        <label for="DateCreated" class="form-label">Date Created</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="book.DateCreated" />
+        </div>
+        <ValidationMessage For="@(() => book.DateCreated)" />
+    </div>*@
+@*    <div class="mb-3">
+        <label for="DateLastUpdate" class="form-label">Date Last Update</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="book.DateLastUpdate" />
+        </div>
+        <ValidationMessage For="@(() => book.DateLastUpdate)" />
+    </div>*@
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button class="btn btn-light" @onclick="Cancel">Cancel</button>
+    </div>
+</EditForm>
+
+
+
+@code {
+
+
+    protected Book book = new();
+
+    protected async Task SaveUser()
+    {
+        string apiUrl = "https://localhost:7239/api/books/post-book";
+
+        if(book.BookName is null || book.BookReferenceNo is null)
+        {
+            return;
+        }
+
+        await Http.PostAsJsonAsync(apiUrl, book);
+        NavigationManager.NavigateTo("/books-list");
+    }
+    protected async Task Cancel()
+    {
+        return;
+    }
+
+
+
+
+}
