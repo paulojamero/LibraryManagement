@@ -31,7 +31,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddControllers();
 ///builder.Services.AddSingleton<WeatherForecastService>();
-builder.Services.AddSingleton<IUserServices, UserServices>();
+builder.Services.AddSingleton<IBookServices, BookServices>();
 
 var app = builder.Build();
 

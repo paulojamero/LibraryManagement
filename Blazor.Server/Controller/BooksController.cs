@@ -11,10 +11,10 @@ namespace Blazor.Server.Controller
     [ApiController]
     public class BooksController : ControllerBase
     {
-        private readonly IUserServices userServices;
-        public BooksController(IUserServices _userServices)
+        private readonly IBookServices bookServices;
+        public BooksController(IBookServices _bookServices)
         {
-            userServices = _userServices;
+            bookServices = _bookServices;
         }
 
 
@@ -25,7 +25,7 @@ namespace Blazor.Server.Controller
         {
             List<Book> books = new List<Book>();
 
-            books = userServices.GetAllStudent().ToList();
+            books = bookServices.GetAllStudent().ToList();
             return Ok(books);
         }
 
@@ -38,7 +38,7 @@ namespace Blazor.Server.Controller
         {
             try
             {
-                userServices.AddNewBook(book);
+                bookServices.AddNewBook(book);
                 return Ok(book);
             }
             catch (Exception e)
@@ -53,9 +53,29 @@ namespace Blazor.Server.Controller
         [Route("delete-book/{bookId}")]
         public async Task<IActionResult> GetBooksList(int? bookId)
         {
-            userServices.DeleteBookById(bookId);
+            bookServices.DeleteBookById(bookId);
             return Ok();
         }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("update-book")]
+        public async Task<IActionResult> UpdateBook(Book book)
+        {
+            try
+            {
+                bookServices.UpdateBookById(book);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest(e.Message);
+            }
+        }
+
+
     }
 
 }

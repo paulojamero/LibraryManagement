@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace Blazor.Shared.Services
 {
-    public class UserServices : IUserServices
+    public class BookServices : IBookServices
     {
         string ConnectionString = string.Empty;
         private readonly IConfiguration configuration;
-        public UserServices(IConfiguration _configuration) 
+        public BookServices(IConfiguration _configuration) 
         {
             ConnectionString = _configuration.GetConnectionString("DbConnection");
         }
@@ -83,5 +83,26 @@ namespace Blazor.Shared.Services
                 con.Close();
             }
         }
+
+        public void UpdateBookById(Book book)
+        {
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("pr_UpdateBookDetail", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@BookId", book.BookId);
+                cmd.Parameters.AddWithValue("@BookReferenceNo", book.BookReferenceNo);
+                cmd.Parameters.AddWithValue("@BookName", book.BookName);
+                cmd.Parameters.AddWithValue("@Theme", book.Theme);
+                cmd.Parameters.AddWithValue("@BookStatus", book.BookStatus);
+                //cmd.Parameters.AddWithValue("",);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+
     }
 }

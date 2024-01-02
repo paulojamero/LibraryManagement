@@ -9,6 +9,9 @@
 
 <h1>List of Books</h1>
 
+<NavLink class="nav-link" href="add-book">
+    <span class="oi oi-plus" aria-hidden="true"></span> ADD BOOK
+</NavLink>
 
 
     <table class="table">
@@ -39,7 +42,7 @@
                     <td>@book.DateCreated</td>
                     <td>@book.DateLastUpdate</td>
                     <td><button type="button" @onclick="(async ()=> await DeleteBook(book.BookId))" class="btn btn-danger">Delete</button></td>
-                
+                <td><button type="button" @onclick="(async ()=> await UpdateBook(book.BookId))" class="btn btn-warning">Update</button></td>
                 </tr>
             }
         </tbody>
@@ -78,6 +81,15 @@
 
         await Http.DeleteAsync(apiUrl);
         NavigationManager.NavigateTo("/");
+    }
+
+    protected async Task UpdateBook(int? bookId)
+    {
+        string pageUrl = "/update-book/" + bookId;
+
+
+        //await Http.PostAsJsonAsync(apiUrl, bookId);
+        NavigationManager.NavigateTo(pageUrl);
     }
 
  
