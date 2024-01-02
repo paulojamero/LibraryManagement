@@ -68,5 +68,20 @@ namespace Blazor.Shared.Services
                 con.Close();
             }
         }
+
+        public void DeleteBookById(int? bookId)
+        {
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("pr_DeleteBook", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@BookId", bookId);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
     }
 }

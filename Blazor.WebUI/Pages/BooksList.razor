@@ -22,6 +22,8 @@
                 <th>Active?</th>
                 <th>Date Created</th>
                 <th>Date Last Updated</th>
+                <th>Delete</th>
+                <th>Update</th>
             </tr>
         </thead>
         <tbody>
@@ -36,6 +38,8 @@
                     <td>@book.isActive</td>
                     <td>@book.DateCreated</td>
                     <td>@book.DateLastUpdate</td>
+                    <td><button type="button" @onclick="(async ()=> await DeleteBook(book.BookId))" class="btn btn-danger">Delete</button></td>
+                
                 </tr>
             }
         </tbody>
@@ -61,6 +65,19 @@
         string responseBodyJson = await response.Content.ReadAsStringAsync();
 
         booksLists = JsonConvert.DeserializeObject<List<Book>>(responseBodyJson);
+    }
+
+    protected async Task DeleteBook(int? bookId)
+    {
+        string apiUrl = "https://localhost:7239/api/books/delete-book/" + bookId;
+
+        //if (bookId <= 0)
+        //{
+        //    return;
+        //}
+
+        await Http.DeleteAsync(apiUrl);
+        NavigationManager.NavigateTo("/");
     }
 
  

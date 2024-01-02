@@ -11,5 +11,6 @@ namespace Blazor.Shared.Services
     {
         public IEnumerable<Book> GetAllStudent();
         public void AddNewBook(Book newBook);
+        public void DeleteBookById(int? bookId);
     }
 }

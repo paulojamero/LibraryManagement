@@ -12,7 +12,7 @@ namespace Blazor.Server.Controller
     public class BooksController : ControllerBase
     {
         private readonly IUserServices userServices;
-        public BooksController(IUserServices _userServices) 
+        public BooksController(IUserServices _userServices)
         {
             userServices = _userServices;
         }
@@ -46,10 +46,16 @@ namespace Blazor.Server.Controller
 
                 return BadRequest(e.Message);
             }
-
-           
-            
         }
 
+        [HttpDelete]
+        [AllowAnonymous]
+        [Route("delete-book/{bookId}")]
+        public async Task<IActionResult> GetBooksList(int? bookId)
+        {
+            userServices.DeleteBookById(bookId);
+            return Ok();
+        }
     }
+
 }
